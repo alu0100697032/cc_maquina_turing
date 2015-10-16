@@ -1,4 +1,4 @@
-#Comentarios
+#Acepta la cadena aabb
 
 q1 q2 q3 q4 q5  #estados
 a b             #alfabeto entrada	

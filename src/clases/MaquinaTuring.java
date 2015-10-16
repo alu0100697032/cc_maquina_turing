@@ -48,8 +48,8 @@ public class MaquinaTuring {
 		ruta = new File(nombreFichero);
 		// Almacenar la informacion del fichero
 		String textoFichero;
-		// FileReader leerFichero = new FileReader("./" + ruta);
-		FileReader leerFichero = new FileReader("./src/" + ruta);
+		// FileReader leerFichero = new FileReader("./" + ruta); //para ejecuable
+		FileReader leerFichero = new FileReader("./src/" + ruta); //para eclipse
 		BufferedReader bufferLectura = new BufferedReader(leerFichero);
 		int linea = 0;
 		while ((textoFichero = bufferLectura.readLine()) != null) {
