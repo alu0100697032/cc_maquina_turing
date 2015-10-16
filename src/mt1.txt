@@ -1,0 +1,12 @@
+#Comentarios
+
+q1 q2 q3 q4 q5  #estados
+a b             #alfabeto entrada	
+a b A B @       #alfabeto cinta
+q1              #estado inicial 
+@               #simbolo blanco
+q5              #conjunto estados finales
+q1 a q2 A R
+q2 a q3 A R
+q3 b q4 B R
+q4 b q5 B R
