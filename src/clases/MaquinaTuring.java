@@ -22,6 +22,7 @@ public class MaquinaTuring {
 	private String estadoInicial;
 	private String simboloBlanco;
 	private String estadoActual;
+	private Cinta cinta;
 
 	/*
 	 * CONSTRUCTOR
@@ -35,7 +36,7 @@ public class MaquinaTuring {
 		conjuntoF = new ArrayList<String>();
 		conjuntoTransiciones = new ArrayList<String[]>();
 
-		String nombreFichero = "mt1.txt";
+		String nombreFichero = "mt2.txt";
 		File ruta;
 		Scanner imputNombreFichero = new Scanner(System.in);
 		// Pedir el fichero al usuario
@@ -51,14 +52,15 @@ public class MaquinaTuring {
 		// FileReader leerFichero = new FileReader("./" + ruta); //para ejecuable
 		FileReader leerFichero = new FileReader("./src/" + ruta); //para eclipse
 		BufferedReader bufferLectura = new BufferedReader(leerFichero);
-		int linea = 0;
+		int linea = 0;//tenemos que controlar por que linea vamos
+		//cargar la maquina desde fichero
 		while ((textoFichero = bufferLectura.readLine()) != null) {
-			if (textoFichero.matches("#.*"))
+			if (textoFichero.matches("#.*"))//ignora comentarios
 				continue;
-			else if (textoFichero.matches("\b*"))
+			else if (textoFichero.matches("\b*"))//ignora blancos
 				continue;
 			else {
-				if (linea >= 6) {
+				if (linea >= 6) {//transiciones
 					String separarEspacios[] = textoFichero.split(" ");
 					conjuntoTransiciones.add(separarEspacios);
 				} else {
@@ -118,61 +120,43 @@ public class MaquinaTuring {
 	public void ejecutarMaquinaTuring() {
 
 		String cadenaEntrada;
-		int posicionCabezaLecturaEscitura = 0;
-		estadoActual = estadoInicial;
-		// El usuario inserta la cadena
+		setEstadoActual(getEstadoInicial());
 		System.out.println("Inserte la cadena a probar:");
-		// System.out.println("(Introduzca siempre '@' al final)");
 		Scanner imputUsuario = new Scanner(System.in);
 		cadenaEntrada = imputUsuario.nextLine();
-		char cadenaCinta[] = cadenaEntrada.toCharArray();
-		imputUsuario.close();
-		// Empezamos a evaluar la cadena de entrada
+		char cadenaCinta[] = cadenaEntrada.toCharArray();//pasamos a un array de caracteres
+		cinta = new Cinta(cadenaCinta, new CabezaLE());//inicializamos la cinta con la cadena del usuario
+
+		/*
+		 * Evaluamos
+		 */
 		boolean noTransiciones = false;
 
-		while (noTransiciones == false) {
+		while (noTransiciones == false) {//para cuando no hayan transiciones
 
 			noTransiciones = true;// suponemos, a priori, que no hay
 									// transiciones
 
 			for (int j = 0; j < conjuntoTransiciones.size(); j++) {
 		
-				// si encuentra alguna transicion entra
-				if (estadoActual.equals(conjuntoTransiciones.get(j)[0])
-						&& cadenaCinta[posicionCabezaLecturaEscitura] == conjuntoTransiciones
-								.get(j)[1].charAt(0)) {
+				String estadoSiguiente = cinta.getCabezaLE().transitar(estadoActual, cinta.getCadenaCinta(), conjuntoTransiciones.get(j));
+				
+				if (estadoSiguiente != null) {//si encontro un estado al que transitar...
 
-					estadoActual = conjuntoTransiciones.get(j)[2];
-					cadenaCinta[posicionCabezaLecturaEscitura] = conjuntoTransiciones
-							.get(j)[3].charAt(0);
-					if (conjuntoTransiciones.get(j)[4].equals("R")
-							&& cadenaCinta.length > posicionCabezaLecturaEscitura + 1)
-						posicionCabezaLecturaEscitura++;
-					else if (conjuntoTransiciones.get(j)[4] == "L"
-							&& posicionCabezaLecturaEscitura > 0)
-						posicionCabezaLecturaEscitura--;
-					else if (conjuntoTransiciones.get(j)[4] == "R"
-							&& cadenaCinta.length <= posicionCabezaLecturaEscitura + 1) {
-						cadenaCinta = (String.valueOf(cadenaCinta) + "@")
-								.toCharArray();
-						posicionCabezaLecturaEscitura++;
-					} else if (conjuntoTransiciones.get(j)[4] == "L"
-							&& posicionCabezaLecturaEscitura <= 0) {
-						cadenaCinta = ("@" + String.valueOf(cadenaCinta))
-								.toCharArray();
-						posicionCabezaLecturaEscitura--;
-					}
+					estadoActual = estadoSiguiente; //transita 
 					noTransiciones = false;
-
-					break;// si se encuentra la transicion pasa al siguiente
-							// simbolo de la cadena
+					break;
 				}
 			}// END FOR
 		}// END WHILE (NO QUEDAN TRANSICIONES)
-		System.out.println(String.valueOf(cadenaCinta));
+		getCinta().mostrarCinta();
 		cadenaEsAceptada();
 	}
 
+	/*
+	 * Comprueba si la cadena es aceptada o no
+	 */
+	
 	public void cadenaEsAceptada(){
 		for(int i = 0; i < conjuntoF.size(); i++){
 			if(estadoActual.equals(conjuntoF.get(i))){
@@ -182,6 +166,7 @@ public class MaquinaTuring {
 				System.out.println("Cadena no aceptada");
 		}
 	}
+	
 	/*
 	 * GETER Y SETTER
 	 */
@@ -304,5 +289,19 @@ public class MaquinaTuring {
 	 */
 	public void setSimboloBlanco(String simboloBlanco) {
 		this.simboloBlanco = simboloBlanco;
+	}
+
+	/**
+	 * @return the cinta
+	 */
+	public Cinta getCinta() {
+		return cinta;
+	}
+
+	/**
+	 * @param cinta the cinta to set
+	 */
+	public void setCinta(Cinta cinta) {
+		this.cinta = cinta;
 	}
 }
