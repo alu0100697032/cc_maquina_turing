@@ -36,23 +36,17 @@ public class MaquinaTuring {
 		conjuntoF = new ArrayList<String>();
 		conjuntoTransiciones = new ArrayList<String[]>();
 
-		String nombreFichero = "mt1.txt";
+		String nombreFichero = "";
 		File ruta;
 		Scanner imputNombreFichero = new Scanner(System.in);
 		// Pedir el fichero al usuario
-		/*
-		 * System.out.println(
-		 * "Introduzca el nombre del fichero con los datos de la mÃ¡quina de turing:"
-		 * ); nombreFichero = imputNombreFichero.nextLine(); //(para versiÃ³n
-		 * final)
-		 */
+		System.out.println("Introduzca el nombre del fichero con los datos de la mÃ¡quina de turing:"); 
+		nombreFichero = imputNombreFichero.nextLine(); 
+		 
 		ruta = new File(nombreFichero);
 		// Almacenar la informacion del fichero
 		String textoFichero;
-		// FileReader leerFichero = new FileReader("./" + ruta); //para
-		// ejecuable
-		FileReader leerFichero = new FileReader("./src/" + ruta); // para
-																	// eclipse
+		FileReader leerFichero = new FileReader(ruta); 
 		BufferedReader bufferLectura = new BufferedReader(leerFichero);
 		int linea = 0;// tenemos que controlar por que linea vamos
 		// cargar la maquina desde fichero

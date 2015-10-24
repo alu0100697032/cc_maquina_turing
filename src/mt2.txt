@@ -1,12 +1,13 @@
 #MT que reciba una cadena binaria y copie los unos al final de la cadena dejando un blanco en medio
 
-q1 q2 q3 q4 q5 q6 #estados
-0 1               #alfabeto entrada	
-0 1 x @           #alfabeto cinta
-q1                #estado inicial 
-@                 #simbolo blanco
-q6                #conjunto estados finales
-q1 0 q1 0 R
+#MT =(Q, E, R, S, B, F, T)
+q1 q2 q3 q4 q5 q6 #conjunto estados Q
+0 1               #alfabeto entrada E
+0 1 x @           #alfabeto cinta   R
+q1                #estado inicial   S
+@                 #simbolo blanco   B
+q6                #conjunto estados finales F
+q1 0 q1 0 R       #conjunto de transiciones T
 q1 1 q2 x R
 q1 @ q5 @ L
 q2 1 q2 1 R

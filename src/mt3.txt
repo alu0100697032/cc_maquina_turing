@@ -1,0 +1,16 @@
+#Acepta (a|b|c)* y |a| es par
+
+#MT =(Q, E, R, S, B, F, T)
+q1 q2 q3      #conjunto estados Q
+a b c         #alfabeto entrada E
+a b c @       #alfabeto cinta   R
+q1            #estado inicial   S
+@             #simbolo blanco   B
+q3            #conjunto estados finales F
+q1 a q2 a R   #conjunto de transiciones T
+q1 c q1 c R
+q1 b q1 b R
+q2 b q2 b R
+q2 c q2 c R
+q2 a q1 a R
+q1 @ q3 @ L
