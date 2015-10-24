@@ -36,31 +36,33 @@ public class MaquinaTuring {
 		conjuntoF = new ArrayList<String>();
 		conjuntoTransiciones = new ArrayList<String[]>();
 
-		String nombreFichero = "mt2.txt";
+		String nombreFichero = "mt1.txt";
 		File ruta;
 		Scanner imputNombreFichero = new Scanner(System.in);
 		// Pedir el fichero al usuario
 		/*
 		 * System.out.println(
-		 * "Introduzca el nombre del fichero con los datos de la máquina de turing:"
-		 * ); nombreFichero = imputNombreFichero.nextLine(); //(para versión
+		 * "Introduzca el nombre del fichero con los datos de la mÃ¡quina de turing:"
+		 * ); nombreFichero = imputNombreFichero.nextLine(); //(para versiÃ³n
 		 * final)
 		 */
 		ruta = new File(nombreFichero);
 		// Almacenar la informacion del fichero
 		String textoFichero;
-		// FileReader leerFichero = new FileReader("./" + ruta); //para ejecuable
-		FileReader leerFichero = new FileReader("./src/" + ruta); //para eclipse
+		// FileReader leerFichero = new FileReader("./" + ruta); //para
+		// ejecuable
+		FileReader leerFichero = new FileReader("./src/" + ruta); // para
+																	// eclipse
 		BufferedReader bufferLectura = new BufferedReader(leerFichero);
-		int linea = 0;//tenemos que controlar por que linea vamos
-		//cargar la maquina desde fichero
+		int linea = 0;// tenemos que controlar por que linea vamos
+		// cargar la maquina desde fichero
 		while ((textoFichero = bufferLectura.readLine()) != null) {
-			if (textoFichero.matches("#.*"))//ignora comentarios
+			if (textoFichero.matches("#.*"))// ignora comentarios
 				continue;
-			else if (textoFichero.matches("\b*"))//ignora blancos
+			else if (textoFichero.matches("\b*"))// ignora blancos
 				continue;
 			else {
-				if (linea >= 6) {//transiciones
+				if (linea >= 6) {// transiciones
 					String separarEspacios[] = textoFichero.split(" ");
 					conjuntoTransiciones.add(separarEspacios);
 				} else {
@@ -85,28 +87,26 @@ public class MaquinaTuring {
 								conjuntoF.add(separarEspacios[i]);
 						}
 					}
-				}// END IF ELSE INTERIOR
+				} // END IF ELSE INTERIOR
 				linea++;
-			}// END IF ELSE EXTERIOR
-		}// END WHILE
+			} // END IF ELSE EXTERIOR
+		} // END WHILE
 		bufferLectura.close();
 	}
 
 	/*
-	 * MOSTRAR INFORMACION DE LA MÁQUINA DE TURING
+	 * MOSTRAR INFORMACION DE LA MÃ�QUINA DE TURING
 	 */
 
 	public void mostrarInformacionAutomata() {
-		System.out.println("Información del autómata con pila");
+		System.out.println("InformaciÃ³n del autÃ³mata con pila");
 		System.out.println();
 		System.out.println("Estado inicial: " + estadoInicial);
-		System.out.println("Símbolo blanco: " + simboloBlanco);
+		System.out.println("SÃ­mbolo blanco: " + simboloBlanco);
 		System.out.println("Conjunto de estados: " + conjuntoQ.toString());
-		System.out
-				.println("Alfabeto del lenguaje: " + conjuntoSigma.toString());
+		System.out.println("Alfabeto del lenguaje: " + conjuntoSigma.toString());
 		System.out.println("Alfabeto de la cinta: " + conjuntoR.toString());
-		System.out.println("Conjunto de estados finales: "
-				+ conjuntoF.toString());
+		System.out.println("Conjunto de estados finales: " + conjuntoF.toString());
 		System.out.println("Conjunto de transiciones:");
 		for (int i = 0; i < conjuntoTransiciones.size(); i++)
 			System.out.println(Arrays.toString(conjuntoTransiciones.get(i)));
@@ -120,35 +120,42 @@ public class MaquinaTuring {
 	public void ejecutarMaquinaTuring() {
 
 		String cadenaEntrada;
+		ArrayList<String> cadenaCinta = new ArrayList<>();
 		setEstadoActual(getEstadoInicial());
 		System.out.println("Inserte la cadena a probar:");
 		Scanner imputUsuario = new Scanner(System.in);
 		cadenaEntrada = imputUsuario.nextLine();
-		char cadenaCinta[] = cadenaEntrada.toCharArray();//pasamos a un array de caracteres
-		cinta = new Cinta(cadenaCinta, new CabezaLE());//inicializamos la cinta con la cadena del usuario
+		for (int i = 0; i < cadenaEntrada.length(); i++) {
+			cadenaCinta.add(String.valueOf(cadenaEntrada.charAt(i)));
+		}
 
+		cinta = new Cinta(cadenaCinta, new CabezaLE());// inicializamos la cinta
+														// con la cadena del
+														// usuario
 		/*
 		 * Evaluamos
 		 */
 		boolean noTransiciones = false;
 
-		while (noTransiciones == false) {//para cuando no hayan transiciones
+		while (noTransiciones == false) {// para cuando no hayan transiciones
 
 			noTransiciones = true;// suponemos, a priori, que no hay
 									// transiciones
 
 			for (int j = 0; j < conjuntoTransiciones.size(); j++) {
-		
-				String estadoSiguiente = cinta.getCabezaLE().transitar(estadoActual, cinta.getCadenaCinta(), conjuntoTransiciones.get(j));
-				
-				if (estadoSiguiente != null) {//si encontro un estado al que transitar...
 
-					estadoActual = estadoSiguiente; //transita 
+				String estadoSiguiente = cinta.getCabezaLE().transitar(estadoActual, cinta.getCadenaCinta(),
+						conjuntoTransiciones.get(j));
+
+				if (estadoSiguiente != null) {// si encontro un estado al que
+												// transitar...
+
+					estadoActual = estadoSiguiente; // transita
 					noTransiciones = false;
 					break;
 				}
-			}// END FOR
-		}// END WHILE (NO QUEDAN TRANSICIONES)
+			} // END FOR
+		} // END WHILE (NO QUEDAN TRANSICIONES)
 		getCinta().mostrarCinta();
 		cadenaEsAceptada();
 	}
@@ -156,17 +163,17 @@ public class MaquinaTuring {
 	/*
 	 * Comprueba si la cadena es aceptada o no
 	 */
-	
-	public void cadenaEsAceptada(){
-		for(int i = 0; i < conjuntoF.size(); i++){
-			if(estadoActual.equals(conjuntoF.get(i))){
+
+	public void cadenaEsAceptada() {
+		for (int i = 0; i < conjuntoF.size(); i++) {
+			if (estadoActual.equals(conjuntoF.get(i))) {
 				System.out.println("Cadena aceptada!");
 				break;
-			}else
+			} else
 				System.out.println("Cadena no aceptada");
 		}
 	}
-	
+
 	/*
 	 * GETER Y SETTER
 	 */
@@ -299,7 +306,8 @@ public class MaquinaTuring {
 	}
 
 	/**
-	 * @param cinta the cinta to set
+	 * @param cinta
+	 *            the cinta to set
 	 */
 	public void setCinta(Cinta cinta) {
 		this.cinta = cinta;

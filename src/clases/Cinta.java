@@ -1,37 +1,41 @@
 package clases;
 
+import java.util.ArrayList;
+
 public class Cinta {
 
 	/*
 	 * Atributos
 	 */
-	
-	private char[] cadenaCinta;
+
+	private ArrayList<String> cadenaCinta;
 	private CabezaLE cabezaLE;
-	
+
 	/*
 	 * Constructor
 	 */
-	
-	public Cinta(char[] cadena, CabezaLE cabeza){
+
+	public Cinta(ArrayList<String> cadena, CabezaLE cabeza) {
 		setCadenaCinta(cadena);
 		setCabezaLE(cabeza);
 	}
 
-	public void mostrarCinta(){
-		System.out.println(String.valueOf(cadenaCinta));
+	public void mostrarCinta() {
+		System.out.println(cadenaCinta);
 	}
+
 	/**
 	 * @return the cadenaCinta
 	 */
-	public char[] getCadenaCinta() {
+	public ArrayList<String> getCadenaCinta() {
 		return cadenaCinta;
 	}
 
 	/**
-	 * @param cadenaCinta the cadenaCinta to set
+	 * @param cadenaCinta
+	 *            the cadenaCinta to set
 	 */
-	public void setCadenaCinta(char[] cadenaCinta) {
+	public void setCadenaCinta(ArrayList<String> cadenaCinta) {
 		this.cadenaCinta = cadenaCinta;
 	}
 
@@ -43,7 +47,8 @@ public class Cinta {
 	}
 
 	/**
-	 * @param cabezaLE the cabezaLE to set
+	 * @param cabezaLE
+	 *            the cabezaLE to set
 	 */
 	public void setCabezaLE(CabezaLE cabezaLE) {
 		this.cabezaLE = cabezaLE;

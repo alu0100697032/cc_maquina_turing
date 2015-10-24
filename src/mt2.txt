@@ -1,0 +1,23 @@
+#MT que reciba una cadena binaria y copie los unos al final de la cadena dejando un blanco en medio
+
+q1 q2 q3 q4 q5 q6 #estados
+0 1               #alfabeto entrada	
+0 1 x @           #alfabeto cinta
+q1                #estado inicial 
+@                 #simbolo blanco
+q6                #conjunto estados finales
+q1 0 q1 0 R
+q1 1 q2 x R
+q1 @ q5 @ L
+q2 1 q2 1 R
+q2 0 q2 0 R
+q2 @ q3 @ R
+q3 1 q3 1 R
+q3 @ q4 1 L
+q4 @ q4 @ L
+q4 1 q4 1 L
+q4 0 q4 0 L
+q4 x q1 x R
+q5 x q5 1 L
+q5 0 q5 0 L
+q5 @ q6 @ R
